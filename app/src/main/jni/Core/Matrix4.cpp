@@ -1,4 +1,5 @@
 #include <string.h>
+#include <Utils/Logger.h>
 #include "Matrix4.h"
 
 Matrix4::Matrix4() {
@@ -62,6 +63,13 @@ void Matrix4::InitOrthographic(float left, float right, float bottom, float top,
     set(1, 0, 0);               set(1, 1, 2.0/heigth);       set(1, 2, 0);                set(1, 3, -(top + bottom) / heigth);
     set(2, 0, 0);               set(2, 1, 0);                set(2, 2, -2.0/depth);       set(2, 3, -(nearPlane + farPlane) / depth);
     set(3, 0, 0);               set(3, 1, 0);                set(3, 2, 0);                set(3, 3, 1.0);
+
+    /*
+    for(int i=0; i<16;i++){
+        DLOG("Matrix4.cpp --> i.x:%d", i);
+        DLOG("Matrix4.cpp --> InitOrthographic.x:%f", _m[i]);
+    }
+     */
 }
 
 
@@ -143,6 +151,12 @@ Matrix4& Matrix4::operator*(Matrix4 matrix4) {
     return *mat;
 }
 
+
+Matrix4& Matrix4::operator= (Matrix4 matrix4){
+    std::memcpy((void*)_m, matrix4._m, 16 * sizeof(16));
+
+    return *this;
+}
 
 
 

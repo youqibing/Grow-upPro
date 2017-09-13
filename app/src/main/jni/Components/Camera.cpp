@@ -28,7 +28,7 @@ Matrix4* Camera::GetCameraMatrix() {
 }
 
 void Camera::UpdateProjMatrix() {
-    projMatrix4 ->InitOrthographic(-width/2, height/2, -height/2, height/2, zNear, zFar);
+    projMatrix4 ->InitOrthographic(-width/2, width/2, -height/2, height/2, zNear, zFar);
 
     (*cameraMaxtrix4) = (*projMatrix4) * (*viewMatrix4);
 }

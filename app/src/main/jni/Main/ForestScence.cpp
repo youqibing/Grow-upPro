@@ -1,6 +1,7 @@
 
 #include <Components/Camera.h>
 #include <Manager/TextureManager.h>
+#include <Utils/Logger.h>
 #include "ForestScence.h"
 
 void ForestScence::Initialize() {
@@ -8,8 +9,8 @@ void ForestScence::Initialize() {
     elapsedTime = 0;
     pauseGame = true;
 
-    screenWidth = 480;
-    screenHeight = 800;
+    screenWidth = 960;
+    screenHeight = 1000;
 
     mainCamera = new Camera(screenWidth, screenHeight, 0, 100, "MainCamera");
     mainCamera->SetPosition(screenWidth/2, screenHeight/2);
@@ -17,50 +18,51 @@ void ForestScence::Initialize() {
 
     Texture *texture = TextureManager::GetInstance()->LoadTexture("five_sky.png", GL_LINEAR, GL_REPEAT);
     sky = new Sprite(texture, "five_sky");
-    sky->SetPosition(screenWidth , screenHeight/2);
+    sky->SetPosition(screenWidth/2 , screenHeight/2);
     sky->SetWidth(1048);
     sky->SetHeight(screenHeight);
+    AddChild(sky);
 
     texture = TextureManager::GetInstance() -> LoadTexture("four_snow_mountain.png",GL_LINEAR, GL_REPEAT);
     mountain = new Sprite(texture,"four_snow_mountain");
     mountain -> SetWidth(1048);
     mountain -> SetHeight(900);
-    mountain -> SetPosition(screenWidth , screenHeight/2);
+    mountain -> SetPosition(screenWidth/2 , screenHeight/2);
+    AddChild(mountain);
 
     texture = TextureManager::GetInstance() -> LoadTexture("two_hill.png",GL_LINEAR, GL_REPEAT);
     hill = new Sprite(texture,"two_hill");
     hill -> SetWidth(1048);
     hill -> SetHeight(900);
-    hill -> SetPosition(screenWidth , screenHeight/2);
+    hill -> SetPosition(screenWidth /2, screenHeight/2);
+    AddChild(hill);
 
     texture = TextureManager::GetInstance()->LoadTexture("one_tree.png", GL_LINEAR, GL_REPEAT);
     tree = new Sprite(texture, "one_tree");
     tree->SetWidth(1024);
     tree->SetHeight(640);
-    tree->SetPosition(screenWidth , tree->GetHeight() / 2);
-
-    AddChild(sky);
-    AddChild(mountain);
-    AddChild(hill);
+    tree->SetPosition(screenWidth /2, screenHeight / 2);
     AddChild(tree);
 }
 
 void ForestScence::Update(float d){
-    delta = d;
+    //ELOG("ForestScence.cpp --> Update:%f", d);
 
     if(pauseGame){
-        return;
+        pauseGame = false;
     }
 
-    elapsedTime += d/2;
+    elapsedTime += d;
+    //ELOG("ForestScence.cpp --> elapsedTime:%f", elapsedTime);
 
-    offsetSky = fmod(elapsedTime/8.5f,1.0f);
-    offsetMountain = fmod(elapsedTime/4.0f,1.0f);
-    offsetHill = fmod(elapsedTime/3.0f,1.0f);
-    offsetTree = fmod(elapsedTime/2.0f,1.0f);
+    offsetSky = fmod(elapsedTime/5.5f,1.0f);
+    offsetMountain = fmod(elapsedTime/3.0f,1.0f);
+    offsetHill = fmod(elapsedTime/2.0f,1.0f);
+    offsetTree = fmod(elapsedTime,1.0f);
 
     Scene::UpdateGameObjects();
 
+    //ELOG("ForestScence.cpp --> SetDiffUseTextureOffset:%f", offsetSky);
     sky->Getvertices()->GetUpdateShader()->SetDiffUseTextureOffset(offsetSky, 0);
     mountain->Getvertices()->GetUpdateShader()->SetDiffUseTextureOffset(offsetMountain, 0);
     hill->Getvertices()->GetUpdateShader()->SetDiffUseTextureOffset(offsetHill, 0);

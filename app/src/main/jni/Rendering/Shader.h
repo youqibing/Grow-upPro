@@ -1,6 +1,8 @@
 #ifndef GROWUP_SHADER_H
 #define GROWUP_SHADER_H
 
+
+#include <GLES2/gl2.h>
 #include "Core/Matrix4.h"
 
 class Shader{

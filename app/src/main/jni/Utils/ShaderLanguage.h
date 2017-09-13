@@ -12,8 +12,8 @@ public:
     string defaultFragShader();
     string defaultVertShader();
 
-    string & ScreenFragShader();
-    string & ScreenVertShader();
+    string ScreenFragShader();
+    string ScreenVertShader();
 
 };
 #endif //GROWUP_DEFAULTSHADER_H

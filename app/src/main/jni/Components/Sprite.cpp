@@ -1,16 +1,19 @@
 #include <Rendering/Texture.h>
 #include <Manager/VerticesManager.h>
+#include <Utils/Logger.h>
 #include "Sprite.h"
 
 Sprite::Sprite(Texture *texture, char *name) :BaseObject(name){
     width = texture->width;
     height = texture->height;
 
+    ELOG("Sprite.cpp --> width:%d", texture->width);
+    ELOG("Sprite.cpp --> height:%d", texture->height);
     vertices = VerticesManager::GetInstance()->CreatVertices(Vector(texture->width,texture->height));
     vertices->GetUpdateShader()->SetDiffUseTexture(texture);
 
     spriteFrame.animationCounter=0;
-    spriteFrame.currentFrame.set(0,0);
+    spriteFrame.currentFrame.set(0,1);
     spriteFrame.frame.set(1,1);
 }
 

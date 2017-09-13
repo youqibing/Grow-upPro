@@ -38,7 +38,7 @@ public:
 
     void SetDiffUseTextureTiling(const Vector& tiling);
     void SetDiffUseTextureTiling(float x,float y);
-    void SetDiffUseTextureOfffset(const Vector& offset);
+    void SetDiffUseTextureOffset(const Vector& offset);
     void SetDiffUseTextureOffset(float x,float y);
 
     void Update(Matrix4 *cameraMatrix, Matrix4 *modelMatrix);

@@ -1,6 +1,7 @@
 #include <exception>
 #include <malloc.h>
 #include "FileLoader.h"
+#include "Logger.h"
 
 FileLoader* FileLoader::GetInstance() {
     static FileLoader *instance;
@@ -22,8 +23,9 @@ void FileLoader::LoadTextureData(unsigned char **data, long &size, const char *f
         std::terminate();
     }
     size = AAsset_getLength(asset);
+    ELOG("FileLoader.cpp --> size:%ld", size);
     *data = (unsigned char*) malloc (sizeof(unsigned char)* size);
-    AAsset_read(asset, *data, size);
+    AAsset_read(asset, *data, (size_t) size);
     AAsset_close(asset);
 }
 

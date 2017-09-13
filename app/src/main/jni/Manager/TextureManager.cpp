@@ -1,6 +1,7 @@
 
 #include <Utils/FileLoader.h>
 #include <Rendering/lodepng.h>
+#include <Utils/Logger.h>
 #include "TextureManager.h"
 
 TextureManager* TextureManager::GetInstance() {
@@ -29,14 +30,16 @@ Texture* TextureManager::LoadTexture(const char *fileName, int filter, int wrapM
     Texture* texture = new Texture();
 
     //pair实质上是一个结构体，主要的作用是将两个数据组合成一个数据，两个数据可以是同一类型或者不同类型
-    loadedTextures.insert(std::pair<std::string, Texture* > (fileName, texture) );  //C++ 中向HashMap中插入键值对的语法
+    loadedTextures.insert(std::pair<std::string, Texture*> (fileName, texture) );  //C++ 中向HashMap中插入键值对的语法
 
     std::string absoluePath = "Textures/";
     absoluePath.append(fileName);
+    ELOG("TextureManager.cpp --> LoadTexture:%s", absoluePath.c_str());
 
     unsigned char *imageData;
     long imageSize;
     FileLoader::GetInstance()->LoadTextureData(&imageData, imageSize, absoluePath.c_str());
+    ELOG("TextureManager.cpp --> imageSize:%ld", imageSize);
 
     unsigned char* image;
     lodepng::State state;
@@ -48,7 +51,7 @@ Texture* TextureManager::LoadTexture(const char *fileName, int filter, int wrapM
      * 对象来解析图片获取像素，但这个BitMap又是不显示的(像素传给OpenGl显示),在图片比较大时生成的BitMap也很大,因此极大的降低了运行效率,
      * 浪费了内存(可以看看AndEngine源码中GLState类中glTexSubImage2D()方法); 而调用NDK用C++的话则不存在这个问题
      */
-    unsigned error = lodepng_decode(&image, &texture->width, &texture->height, &state, imageData, imageSize);
+    unsigned error = lodepng_decode(&image, &texture->width, &texture->height, &state, imageData, (size_t) imageSize);
     //lodePNG 是一个开源的图片解码库,然后直接从GitHub上面下载复制源码就行,项目地址 https://github.com/lvandeve/lodepng
     //可参考博客: blog.csdn.net/zerokkqq/article/details/52955866
 
@@ -75,8 +78,8 @@ Texture* TextureManager::LoadTexture(const char *fileName, int filter, int wrapM
  */
 Texture* TextureManager::CreatTexture(int width, int height, int filter, int wrapMode) {
     Texture* texture = new Texture();
-    texture -> width = width;
-    texture ->height = height;
+    texture -> width = (unsigned int) width;
+    texture ->height = (unsigned int) height;
     texture ->InitializeTexture(0, filter, wrapMode);
     return texture;
 }

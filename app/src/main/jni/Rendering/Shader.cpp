@@ -1,9 +1,8 @@
-#include <GLES2/gl2.h>
-#include <Core/Matrix4.h>
+#include <Utils/Logger.h>
 #include "Shader.h"
 
 Shader::Shader(){
-
+    programId =(GLuint)1;
 }
 
 
@@ -14,7 +13,9 @@ Shader::Shader(){
  *      获取Attribute Variables的储存位置，只需要给出其在shader中定义的变量名即可，这里为"a_position"和 "a_texCoord"
  */
 void Shader::GetAttribAndUniformLocation() {
+    //ELOG("ShaderManager.cpp --> shader ->positionAttribLocation():%d", programId);
     positionAttribLocation = glGetAttribLocation(programId, "a_position");  //获取顶点坐标储存位置
+    //ELOG("ShaderManager.cpp --> shader ->texcoordAttribLocation():%d", programId);
     textCoordAttribLocation = glGetAttribLocation(programId, "a_texCoord"); //获取纹理坐标储存位置
 
     modelMatrixUniformLocation = glGetUniformLocation(programId, "u_modelMatrix");  //获取模型矩阵储存位置
@@ -76,6 +77,7 @@ void Shader::SetUniformMatrix(int uniformIndex, Matrix4& matrix){
 
 
 void Shader::Begin() {
+    //ELOG("ShaderManager.cpp --> shader ->Begin():%d", programId);
     glUseProgram(programId);    //告诉OpenGL ES启用此programId程序
 }
 
@@ -83,7 +85,8 @@ void Shader::End(){
     glUseProgram(0);
 }
 
-GLuint & Shader::GetProgramId() {
+GLuint &Shader::GetProgramId() {
+    //ELOG("ShaderManager.cpp --> shader ->GetProgramId():%d", programId);
     return programId;   //programId是在ShaderManager类中的调用glCreateProgram()自动产生的
 }
 

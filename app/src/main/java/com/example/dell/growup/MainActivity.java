@@ -1,25 +1,16 @@
 package com.example.dell.growup;
 
+import android.app.Activity;
 import android.opengl.GLSurfaceView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
 
     NativeRenderer renderer;
     GLSurfaceView glSurfaceView;
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        renderer.resume();
-
-        glSurfaceView.onResume();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(glSurfaceView);
     }
 
-    @Override
+
     protected void onPause() {
         super.onPause();
 
@@ -48,12 +39,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    @Override
     protected void onDestroy() {
         super.onDestroy();
 
         renderer.destroy();
 
-        this.finish();
+        //this.finish();
+        System.exit(0);
+    }
+
+    protected void onResume() {
+        super.onResume();
+
+        renderer.resume();
+
+        glSurfaceView.onResume();
     }
 }

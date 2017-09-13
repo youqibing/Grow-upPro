@@ -5,20 +5,21 @@
 
 class GameTime{
 private:
-    long double timeCounter;
+    long timeCounter;
     float deltaTime;
 
-    long double milliseconds_now(){
+    long milliseconds_now() {	//用于获取系统时钟，这个当做原子操作记下
         timespec now;
-        int err = clock_gettime(CLOCK_BOOTTIME, &now);
-        return now.tv_nsec * 1000.0L + now.tv_nsec / 1000000.0L;
+        int err = clock_gettime(CLOCK_MONOTONIC, &now);
+        return now.tv_sec * 1000.0L + now.tv_nsec / 1000000.0L;
     }
+
 public:
     static GameTime* GetInstance();
 
     void Initialize();
     const float GetDeltaTime();
-    long double GetTimeSinceLastUpdate();
+    long GetTimeSinceLastUpdate();
     void Update();
 };
 

@@ -2,6 +2,7 @@
 #define GROWUP_MATRIX4_H
 
 #include "Utils/Vector.h"
+#include <memory>
 
 class Matrix4{
 private:
@@ -27,6 +28,7 @@ public:
     void Translate(const Vector& v);
 
     Matrix4& operator * (Matrix4 matrix4);  //重载运算符
+    Matrix4& operator= (Matrix4 matrix4);
 
     void set(int x,int y, float v);
     float get(int x,int y) const;

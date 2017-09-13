@@ -1,14 +1,17 @@
 
+#include <Utils/Logger.h>
 #include "FrameBuffer.h"
 
 FrameBuffer::FrameBuffer(int width, int height, Texture *attachTexture) {
-    textureHeight = width;
-    textureHeight = height;
+    ELOG("FrameBuffer.cpp --> textureWidth:%d",textureWidth);
+    textureWidth =  width;
+    textureHeight =  height;
     texture = attachTexture;
 
     glGenFramebuffers(1, &framebufferId);   //创建一个帧缓冲,调用这句自动分配一个framebufferId
     glBindFramebuffer(GL_FRAMEBUFFER, framebufferId);   //绑定帧缓冲
 
+    //ELOG("FrameBuffer.cpp --> attachTexture->GetTextureId():%d", attachTexture->GetTextureId());
     glBindTexture(GL_TEXTURE_2D, attachTexture->GetTextureId());   //将刚才创建的纹理绑定到帧缓冲的上下文中，作为帧缓冲纹理
 
     /*glFramebufferTexture2D()把之前创建的纹理附加到帧缓冲上*/

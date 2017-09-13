@@ -2,6 +2,7 @@
 #define GROWUP_SCENE_H
 
 #include <Rendering/RenderingEngine.h>
+#include <Utils/Logger.h>
 #include "Components/BaseObject.h"
 #include "Components/Camera.h"
 
@@ -20,6 +21,7 @@ public:
 
     void Dispose(){
         for(int i=0; i< gameObjects.size(); i++){
+            ELOG("Scene.cpp --> Scene:%d", i);
             delete gameObjects[i];
             gameObjects[i] = 0;
         }
@@ -60,6 +62,8 @@ public:
                 renderer->RenderObjects(gameObjects[i]);
             }
         }
+
+        renderer->RenderScreen();
 
         renderer->StopBlending();
     }

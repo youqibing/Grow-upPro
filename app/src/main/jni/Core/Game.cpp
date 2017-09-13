@@ -25,8 +25,6 @@ Game * Game::GetInstance() {
 }
 
 void Game::Initialize(int screenWidth, int screenHeight) {
-    ELOG("Game.cpp %s","Initialize");
-
     GameTime::GetInstance()->Initialize();
     ShaderManager::GetInstance()->Initialize();
     RenderingEngine::GetInstance()->Initialize(screenWidth, screenHeight);
@@ -43,6 +41,7 @@ void Game::Update() {
     SetData(GameTime::GetInstance()->GetDeltaTime());   //当前时间 - 上一次Upadte时保存的时间
 
     if(scene != 0 && !gamePause){
+        //ELOG("Game.cpp --> Update:%f", delta);
         scene->Update(delta);
     }
 }

@@ -1,8 +1,10 @@
 package com.example.dell.growup;
 
+import android.content.Loader;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;

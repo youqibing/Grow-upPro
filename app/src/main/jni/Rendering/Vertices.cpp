@@ -1,4 +1,5 @@
 
+#include <Utils/Logger.h>
 #include "Vertices.h"
 
 Vertices::Vertices() {
@@ -21,6 +22,10 @@ void Vertices::SetVertices(Vertex * vertices, int numVertices, const Vector & sc
     float * verts = new float[numVertices * 4];
 
     for(int i=0; i<numVertices; i++){
+
+        //ELOG("i = %d",i);
+        //ELOG("scale.x = %f",scale.x);
+        //ELOG("scale.y = %f",scale.y);
 
         verts[i * 4 + 0] = vertices[i].position.x * scale.x;
         verts[i * 4 + 1] = vertices[i].position.y * scale.y;

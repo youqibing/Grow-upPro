@@ -1,3 +1,4 @@
+#include <Utils/Logger.h>
 #include "Manager/ShaderManager.h"
 #include "ShaderUpdate.h"
 
@@ -27,7 +28,7 @@ void ShaderUpdate::SetDiffUseTextureTiling(float x, float y) {
     diffUseTiling.y = y;
 }
 
-void ShaderUpdate::SetDiffUseTextureOfffset(const Vector &offset) {
+void ShaderUpdate::SetDiffUseTextureOffset(const Vector &offset) {
     diffUseOffset = offset;
 }
 
@@ -67,7 +68,14 @@ void ShaderUpdate::Update(Matrix4 *cameraMatrix, Matrix4 *modelMaterial){
      * 这四个SetUniform方法(包括下面的if中的)是给 Fragment Shader中的变量传递值
      */
     shader->SetUniform4f("u_tintColor", tint.r, tint.g, tint.b, tint.a);
+
+    //ELOG("ShaderUpdate.cpp --> diffUseTiling.x:%f", diffUseTiling.x);
+    //ELOG("ShaderUpdate.cpp --> diffUseTiling.y:%f", diffUseTiling.y);
+    //ELOG("ShaderUpdate.cpp --> diffUseOffset.x:%f", diffUseOffset.x);
+    //ELOG("ShaderUpdate.cpp --> diffUseOffset.y:%f", diffUseOffset.y);
     shader->SetUniform4f("u_tiling_offset",diffUseTiling.x, diffUseTiling.y, diffUseOffset.x, diffUseOffset.y);
+
+    //ELOG("ShaderUpdate.cpp --> u_transparency:%f", transparency);
     shader->SetUniform1f("u_transparency", transparency);
 
     /*

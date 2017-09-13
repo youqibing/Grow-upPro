@@ -1,12 +1,16 @@
 
 #include <GLES2/gl2.h>
+#include <Utils/Logger.h>
 #include "Texture.h"
 
 Texture::Texture() {
-    textureId =-1;
+    textureId = (GLuint) -1;
 }
 
 bool Texture::InitializeTexture(unsigned char *pixelData, int fiter, int mode) {
+    //ELOG("Texture.cpp --> pixelData:%s", pixelData);
+    //ELOG("Texture.cpp --> filter:%d", fiter);
+    //ELOG("Texture.cpp --> filter:%d", mode);
     glBindTexture(GL_TEXTURE_2D,0);     //这里的0相当于初始化
 
     /*
@@ -15,6 +19,7 @@ bool Texture::InitializeTexture(unsigned char *pixelData, int fiter, int mode) {
      * 在用GL渲染的时候，纹理是很常见的东西。使用纹理之前，必须执行这句命令为你的texture分配一个ID，然后绑定这个纹理，
      * 加载纹理图像，这之后，这个纹理才可以使用。
      */
+    //ELOG("Texture.cpp --> textureId:%d", textureId);
     glGenTextures(1, &textureId);
 
     /*
@@ -58,11 +63,13 @@ bool Texture::InitializeTexture(unsigned char *pixelData, int fiter, int mode) {
 }
 
 void Texture::SetTextureId(GLuint textId) {
+    //ELOG("Texture.cpp --> SetTextureId:%d", textId);
     textureId = textId;
 }
 
 
 GLuint Texture::GetTextureId(){
+    //ELOG("Texture.cpp --> GetTextureId:%d", textureId);
     return textureId;   //这个Id就是上面InitializeTexture函数中glGenTextures()方法自动生成的
 }
 

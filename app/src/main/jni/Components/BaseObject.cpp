@@ -17,7 +17,7 @@ BaseObject::BaseObject(const BaseObject & gameObject) {
     isActive = gameObject.isActive;
 }
 
-void BaseObject::Update() { //虚方法不予以实现
+void BaseObject::Update() {
 
 }
 
@@ -47,7 +47,8 @@ void BaseObject::SetPosition(float x, float y) {
     SetPosition(Vector(x, y));
 }
 void BaseObject::SetPosition(const Vector &pos) {
-    transform->position = pos;
+    transform->position.x = pos.x;
+    transform->position.y = pos.y;
 }
 
 
@@ -56,7 +57,8 @@ void BaseObject::SetScale(float x, float y) {
     SetScale(Vector(x, y));
 }
 void BaseObject::SetScale(const Vector& scl){
-    transform ->scale = scl;
+    transform ->scale.x = scl.x;
+    transform ->scale.y = scl.y;
 }
 
 

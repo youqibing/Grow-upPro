@@ -12,20 +12,21 @@ GameTime* GameTime::GetInstance(){
 }
 
 void GameTime::Initialize() {
-    ELOG("GameTime.cpp %s","Initialize");
     timeCounter = milliseconds_now();
 }
 
 void GameTime::Update() {
-    deltaTime = (float)GetTimeSinceLastUpdate() / 1000.0f;
+    deltaTime = (float)GetTimeSinceLastUpdate() / 6000.0f;
     timeCounter = milliseconds_now();
+    //ELOG("timeCounter = %ld",timeCounter);
 }
 
-long double GameTime::GetTimeSinceLastUpdate(){
+long GameTime::GetTimeSinceLastUpdate(){
     return milliseconds_now() - timeCounter;
 }
 
 float const GameTime::GetDeltaTime() {
+    //ELOG("deltaTime = %f",deltaTime);
     return deltaTime;
 }
 
