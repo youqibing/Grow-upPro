@@ -54,22 +54,16 @@ void Matrix4::InitOrthographic(float left, float right, float bottom, float top,
     float depth = farPlane - nearPlane;
 
     /**
-     *  2/w   0     0      -(r+l)/w                                                 x              2/w*x-(r+l)/w
-     *  0     2/h   0      -(t+b)/h    这是一个“缩放+平移”矩阵，所有乘以该矩阵的向量(设为 [ y ])都会得到 [   2/h*y-(t+b)/h  ]
-     *  0     0     -2/d   -(f+n)/d                                                z              -2/d*z-(f+n)/d
-     *  0     0     0      1           这里的1是不会变的，因为在三维空间上这个第四维是没有意义的，所以不管什么变换都给他乘1
+     *  1/(w/2)    0         0         -(r+l)/w        标准的 "正交投影矩阵",这个矩阵的作用就是，将传入的点的坐标(x,y,z)除以
+     *  0        1/(h/2)     0         -(t+b)/h    (w/2, h/2, d/2)转化到(1,-1)(1,-1)(1,0),即归一化,超过1的部分都会被接下
+     *  0          0       -1/(d/2)    -(f+n)/d    来的剪裁视图裁掉,不予以呈现.具体可参考红宝书
+     *  0          0         0            1
      */
     set(0, 0, 2.0/width);       set(0, 1, 0);                set(0, 2, 0);                set(0, 3, -(right + left) / width);
     set(1, 0, 0);               set(1, 1, 2.0/heigth);       set(1, 2, 0);                set(1, 3, -(top + bottom) / heigth);
     set(2, 0, 0);               set(2, 1, 0);                set(2, 2, -2.0/depth);       set(2, 3, -(nearPlane + farPlane) / depth);
     set(3, 0, 0);               set(3, 1, 0);                set(3, 2, 0);                set(3, 3, 1.0);
 
-    /*
-    for(int i=0; i<16;i++){
-        DLOG("Matrix4.cpp --> i.x:%d", i);
-        DLOG("Matrix4.cpp --> InitOrthographic.x:%f", _m[i]);
-    }
-     */
 }
 
 

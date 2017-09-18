@@ -1,6 +1,5 @@
 package com.example.dell.growup;
 
-import android.content.Loader;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.opengl.GLSurfaceView;
@@ -74,6 +73,13 @@ public class NativeRenderer implements GLSurfaceView.Renderer {
     public static native void nativeOnResume();
     public static native void nativeOnDestroy();
 
+
+
+
+    /**
+     * Java要调用Native函数，就必须通过一个位于JNI层的动态库才能做到。顾名思义，动态库就是运行时加载的库
+     * System.loadLibrary函数的参数是动态so库的名字,我们在后面的gradle里边已经指定了
+     */
 
     static{
         System.loadLibrary("GrowUp");

@@ -1,7 +1,6 @@
 
 #include <Components/Camera.h>
 #include <Manager/TextureManager.h>
-#include <Utils/Logger.h>
 #include "ForestScence.h"
 
 void ForestScence::Initialize() {

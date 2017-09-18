@@ -2,7 +2,6 @@
 #define GROWUP_FORESTSCENCE_H
 
 #include "Components/Sprite.h"
-#include "Components/ObjectsGroup.h"
 #include "Core/Scene.h"
 
 class ForestScence : public Scene{

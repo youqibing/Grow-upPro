@@ -7,10 +7,10 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-/*
- * Class:     com_example_dell_growup_NativeRenderer
- * Method:    nativeOnStart
- * Signature: ()V
+
+/**
+ * 静态有两个非常重要的关键字JNIEXPORT和JNICALL, 这两个关键字是宏定义, 主要用于说明该函数是JNI函数，
+ * 在虚拟机加载so库时, 如果发现函数含有上面两个宏定义时, 就会链接到对应java层的native方法。
  */
 JNIEXPORT void JNICALL Java_com_example_dell_growup_NativeRenderer_nativeOnStart(JNIEnv *, jclass);
 

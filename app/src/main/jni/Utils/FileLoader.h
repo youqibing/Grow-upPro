@@ -10,10 +10,7 @@ public:
     static FileLoader* GetInstance();
 
     void Initialize(AAssetManager* manager);
-
-    void LoadFile(char** data, long& size, const char* fileName);
     void LoadTextureData(unsigned char **data, long &size, const char *fileName);
 
-    AAssetManager *GetAAssetManager() const;
 };
 #endif //GROWUP_FILELOADER_H
