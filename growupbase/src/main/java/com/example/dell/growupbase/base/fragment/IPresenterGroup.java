@@ -1,9 +1,11 @@
 package com.example.dell.growupbase.base.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 
 import java.util.LinkedList;
@@ -13,9 +15,8 @@ import java.util.List;
  * Created by dell on 2017/9/14.
  */
 
-public abstract class PresenterGroup<V extends IViewGroup> extends Presenter<V> {
+public abstract class IPresenterGroup<V extends IViewGroup> extends IPresenter<V> {
 
-    private IPageSwitcher mPageSwitcher;
     protected final Handler mUIHandler;
     private PageState mCurrentPageState = PageState.NONE;
 
@@ -23,29 +24,28 @@ public abstract class PresenterGroup<V extends IViewGroup> extends Presenter<V> 
         NONE, CREATED, STARTED, RESUMED, PAUSED, STOPPED, DESTOYED
     }
 
-    public PresenterGroup(Context context, Bundle arguments) {
+    public IPresenterGroup(Context context, Bundle arguments) {
         super(context);
         mUIHandler = new Handler(Looper.getMainLooper());
         mArguments = arguments;
     }
 
     /** 子Presenter 的集合**/
-    private final List<Presenter> mChildren = new LinkedList<>();
-    //private final IndexAllocator<Presenter> mChildIndex = new IndexAllocator<>();
+    private final List<IPresenter> mChildren = new LinkedList<>();
 
 
 
     /**------------------------------------Presenter层级管理--------------------------------------**/
 
     /**
-     * 想当前Presenter中添加一个子(组件)Presenter
+     * 想当前Presenter中添加一个子(组件)IPresenter
      * @param child
      * @param arguments 组件Presenter的初始化参数
      * @return
      */
-    public final boolean addChild(Presenter child, Bundle arguments){
+    public final boolean addChild(IPresenter child, Bundle arguments){
         if(!runOnUIThread()){
-            throw  new RuntimeException("添加Child必须在主线程！");
+            throw new RuntimeException("添加Child必须在主线程！");
         }
         if(child == null){
             throw new IllegalArgumentException("当前子Presenter为null! 无法添加到父Presenter中！");
@@ -59,6 +59,7 @@ public abstract class PresenterGroup<V extends IViewGroup> extends Presenter<V> 
 
         child.setParent(this);
         mChildren.add(child);
+        Log.e("PresentGroup",(arguments == null)+"");
         child.mArguments = arguments != null ? arguments : mArguments;
 
         disPatchLifeCycleOnAdd(child);
@@ -70,12 +71,12 @@ public abstract class PresenterGroup<V extends IViewGroup> extends Presenter<V> 
      * @param child
      * @return
      */
-    public final boolean addChild(Presenter child){
+    public final boolean addChild(IPresenter child){
         return addChild(child, null);
     }
 
 
-    public final boolean removeChild(Presenter child){
+    public final boolean removeChild(IPresenter child){
         if(!runOnUIThread()){
             throw new RuntimeException("当前为非UI线程！移除child必须在UI线程中执行！");
         }
@@ -98,25 +99,21 @@ public abstract class PresenterGroup<V extends IViewGroup> extends Presenter<V> 
     /**-----------------------------------------------------------------------------------------**/
 
 
-
-    /**----------------------------------Fragment跳转功能----------------------------------------**/
-
     /**
+     * 这里先暂时将逻辑写为分发所有子Presenter的onActivityResult事件,实际上不能这么做, 应该
+     * 哪个Presenter触发的startActivityForResult事件就触发他的回调，只是前面逻辑还没有写完，这里暂时不能确定
+     * 这个发起事件回调的Presenter的逻辑,后面可能在发起回调时设置一个唯一的tag
      *
-     * @param pageSwitcher
+     * @param requestCode
+     * @param resultCode
+     * @param data
      */
-    void setmPageSwitcher(IPageSwitcher pageSwitcher){
-        mPageSwitcher = pageSwitcher;
+    final void onDispatchActivityResult(int requestCode, int resultCode, Intent data) {
+        int size = mChildren != null ? mChildren.size() : 0;
+        for (int i = 0; i < size; i++) {
+            mChildren.get(i).onActivityResult(requestCode, resultCode, data);
+        }
     }
-
-    @Override
-    protected IPageSwitcher getPageSwitcher() {
-        return mParent != null ? mParent.getPageSwitcher() : mPageSwitcher;
-    }
-
-    /**----------------------------------------------------------------------------------------**/
-
-
 
 
 
@@ -126,7 +123,7 @@ public abstract class PresenterGroup<V extends IViewGroup> extends Presenter<V> 
         onAdd(mArguments);
 
         for(int i=0; i<mChildren.size(); i++){
-            Presenter child = mChildren.get(i);
+            IPresenter child = mChildren.get(i);
             child.onAdd(child.mArguments);
         }
 
@@ -223,7 +220,7 @@ public abstract class PresenterGroup<V extends IViewGroup> extends Presenter<V> 
     /**
      * 添加一个子Presenter之后统一执行他的生命周期
      */
-    private void disPatchLifeCycleOnAdd(Presenter child){
+    private void disPatchLifeCycleOnAdd(IPresenter child){
         Bundle arguments = child.mArguments;
         switch (mCurrentPageState){
             case CREATED:
@@ -260,7 +257,7 @@ public abstract class PresenterGroup<V extends IViewGroup> extends Presenter<V> 
     }
 
 
-    private void dispatchLifeCycleOnRemove(Presenter child){
+    private void dispatchLifeCycleOnRemove(IPresenter child){
         switch (mCurrentPageState){
             case CREATED: {
                 child.onPageStart();

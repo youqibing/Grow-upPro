@@ -1,71 +1,53 @@
 package com.example.dell.growupbase.base.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 
 /**
  * Created by dell on 2017/9/14.
  */
 
-public abstract class Presenter<V extends IView> {
+public abstract class IPresenter<V extends IView> {
     protected Context mContext;
-    protected PresenterGroup mParent;
+    protected IPresenterGroup mParent;
 
     protected V mView;
     protected boolean mRemoved = false;
 
     Bundle mArguments;
 
-    public Presenter(Context context){
+    public IPresenter(Context context){
         mContext = context;
     }
 
-    protected void setParent(PresenterGroup parent){
+    protected void setParent(IPresenterGroup parent){
         mParent = parent;
     }
 
-    protected PresenterGroup getParent(){
+    protected IPresenterGroup getParent(){
         return mParent;
     }
 
 
-    /**
-     * 跳转到指定的Fragment
-     */
-    protected void forward(Class<? extends Fragment> clazz, Bundle options){
-        IPageSwitcher switcher = getPageSwitcher();
-        if(switcher == null){
-            return;
-        }
-
-        switcher.forward(clazz, options);
-    }
-
-    protected IPageSwitcher getPageSwitcher(){
-        return mParent != null ? mParent.getPageSwitcher() : null;
-    }
-
-    /**
-     * 回到上一个界面
-     */
-    protected void goBack(){
-        goBack(null);
-    }
-
-    protected void goBack(Bundle args){
-        IPageSwitcher switcher = getPageSwitcher();
-        if(switcher == null){
-            return;
-        }
-
-        switcher.goBack(args);
-    }
 
     /**------------------------------这里应当封装事件分发功能--------------------------------**/
 
+    //可能会选取EventBus来进行事件分发
+
     /**----------------------------------------------------------------------------------**/
 
+
+    /**
+     * 处理onActivityResult
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //子Presenter重写该方法并处理自己的逻辑
+    }
 
 
 

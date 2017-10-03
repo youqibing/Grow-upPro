@@ -64,7 +64,6 @@ Texture* TextureManager::LoadTexture(const char *fileName, int filter, int wrapM
     texture->InitializeTexture(image, filter, wrapMode);
 
     delete[] image;
-
     return texture;
 }
 

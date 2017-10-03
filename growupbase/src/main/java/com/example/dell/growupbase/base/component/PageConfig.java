@@ -1,6 +1,6 @@
 package com.example.dell.growupbase.base.component;
 
-import android.util.SparseArray;
+import com.example.dell.growupbase.base.component.ComponentConfig;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -47,7 +47,6 @@ public class ComponentFactory {
         componentPool.register(type, name, clazz);
     }
 
-
     /**
      * 创建一个组件对象
      *
@@ -58,44 +57,22 @@ public class ComponentFactory {
      * @return
      */
     public final <T extends IComponent > T newComponent(Context context, String type, String pageId){
-        ComponentConfig config = configuredComponent(context, type, pageId);    //查询组件的配置信息
-        if(config != null ){
-            Log.d("ComponentFactory","该组件已经被配置");
-        }
+        Log.e("CFactory-->newCpn", "type:"+ type+", pageId:"+pageId);
 
-        //如果配置了组件的名称,则尝试从外部加载
-        String compName = config !=null ? config.name(): mCommon.get(type);
-        T component = newInnerComponent(type, compName);
+        String compName =  mCommon.get(type);
+
+        T component = newInnerComponent(type, compName);    //这里返回的是AvatarComponent类的实例，也就是头像组件
         if (component != null) {
             return component;
-        }
-
-        if (!TextUtils.equals(compName, mCommon.get(type))) {
-            return newInnerComponent( type, compName);
-        } else {
+        }else {
             return null;
         }
-    }
 
-
-    /**
-     * 在创建一个组件的时候,先要配置该组件的信息
-     *
-     * @param context   组件所处的上下文
-     * @param type      组件的类型(作为key查找组件)
-     * @param pageId    组件所处的页面ID
-     * @return
-     */
-    private ComponentConfig configuredComponent(Context context, String type, String pageId){
-        ComponentConfig config = ComponentConfigManager.get(context).queryConfig(type, pageId);
-        if (config != null && config.valid() && TextUtils.equals(type, config.type())) {
-            return config;
-        } else {
-            return null;
-        }
     }
 
     private <T extends IComponent> T newInnerComponent(String type, String compName){
+        Log.e("CFactory-->newCpn", type +" "+compName);
+
         if (TextUtils.isEmpty(type) || TextUtils.isEmpty(compName)) {
             return null;
         }
@@ -118,6 +95,13 @@ public class ComponentFactory {
         return null;
     }
 
+    public static ComponentFactory get(){
+        return Holder.INSTANCE;
+    }
 
+
+    private static final class Holder{
+        private static final ComponentFactory INSTANCE = new ComponentFactory();
+    }
 
 }

@@ -113,7 +113,7 @@ jstring returnJavaString(JNIEnv *jniEnv, jobject jobj, jint i, jstring j_str, jc
     }
 
     free(j_charArray);  // 释放存储数组元素的缓冲区
-    (*jniEnv).ReleaseStringUTFChars(j_str,c_str);
+    (*jniEnv).ReleaseStringUTFChars(j_str,c_str);   //释放GetStringUTFChars分配的string缓存
 
     return jniEnv->NewStringUTF(buff);
 }
@@ -161,7 +161,7 @@ void callInstanceMethod(JNIEnv *jniEnv, jclass cls){
         return;
     }
 
-    //获取类的默认构造方法ID
+    //获取类的默认构造方法,用于创建实例
     mid_construct = (*jniEnv).GetMethodID(clazz,"<init>","()V");
     if(mid_construct == NULL){
         return;
@@ -173,13 +173,13 @@ void callInstanceMethod(JNIEnv *jniEnv, jclass cls){
         return;
     }
 
-    //创建该类的实例
+    //创建该类的实例,传入的参数有"类的路径名"和"默认构造函数",这都是实例化必须的
     jobj = (*jniEnv).NewObject(clazz,mid_construct);
     if(jobj == NULL){
         return;
     }
 
-    //调用对象的实例方法
+    //调用对象的实例方法,普通方法必须要用对象(实例调用),传入的参数有"实例对象"、"构造函数"和 "被调用的方法参数"
     str = (*jniEnv).NewStringUTF("我是实例方法");
     (*jniEnv).CallVoidMethod(jobj, instance_method, str);
 

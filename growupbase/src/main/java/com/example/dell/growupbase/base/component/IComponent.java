@@ -2,19 +2,19 @@ package com.example.dell.growupbase.base.component;
 
 import android.view.ViewGroup;
 
-import com.example.dell.growupbase.base.fragment.Presenter;
+import com.example.dell.growupbase.base.fragment.IPresenter;
 import com.example.dell.growupbase.base.fragment.IView;
 
 /**
  * Created by dell on 2017/9/14.
  */
 
-public interface IComponent<V extends IView, P extends Presenter> {
+public interface IComponent<V extends IView, P extends IPresenter> {
 
     /**
      * 对 IComponent 进行初始化
      * IComponent 对应的 IView 和 IPresenter在这里创建
-     * IView 和 Presenter 之间的对应关联也在这里实现
+     * IView 和 IPresenter 之间的对应关联也在这里实现
      *
      * @param params 初始化组件参数
      * @param container 组件对应的父容器

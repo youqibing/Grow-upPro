@@ -1,17 +1,18 @@
 package com.example.dell.growupbase.base.component;
 
+import android.util.Log;
 import android.view.ViewGroup;
 
-import com.example.dell.growupbase.base.fragment.Presenter;
+import com.example.dell.growupbase.base.fragment.IPresenter;
 import com.example.dell.growupbase.base.fragment.IView;
 
 /**
- * 基每一个页面上础组件的基类
- * 每一个组件都包括一个IView 和 Presenter,即界面和逻辑解耦, IPresenter交由PresenterGroup统一管理生命周期
+ * 每一个页面上础组件的基类
+ * 每一个组件都包括一个IView 和 IPresenter,即界面和逻辑解耦, IPresenter交由PresenterGroup统一管理生命周期
  * @param <V>
  * @param <P>
  */
-public abstract class BaseComponent<V extends IView, P extends Presenter> implements IComponent {
+public abstract class BaseComponent<V extends IView, P extends IPresenter> implements IComponent {
 
     private V mView;
     private P mPresenter;

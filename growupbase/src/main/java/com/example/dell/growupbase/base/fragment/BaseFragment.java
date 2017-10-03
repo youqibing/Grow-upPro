@@ -1,5 +1,6 @@
 package com.example.dell.growupbase.base.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,14 +15,14 @@ import android.view.ViewGroup;
 abstract class BaseFragment extends Fragment implements IViewGroup {
 
     private View mRootView;
-    private PresenterGroup mTopPresenter;
+    private IPresenterGroup mTopPresenter;
 
     private boolean mHasCreated;
     private boolean mVisible;
     private boolean mDestroyed;
 
 
-    protected abstract PresenterGroup onCreatTopPresenter();
+    protected abstract IPresenterGroup onCreateTopPresenter();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,7 +35,7 @@ abstract class BaseFragment extends Fragment implements IViewGroup {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mDestroyed = false;
-        mTopPresenter = onCreatTopPresenter();
+        mTopPresenter = onCreateTopPresenter();
         mTopPresenter.setIView(this);
 
         mRootView = onCreatViewImpl(inflater, container, savedInstanceState);
@@ -43,7 +44,15 @@ abstract class BaseFragment extends Fragment implements IViewGroup {
         return mRootView;
     }
 
-
+    /**
+     * 这里的回调的是Activity的 Result,因为更换头像的逻辑是要在MineFragment中触发并进行,有坑需要注意
+     */
+    @Override
+    public final void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(mTopPresenter != null){
+            mTopPresenter.onDispatchActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     protected View onCreatViewImpl(LayoutInflater inflater, ViewGroup containter, Bundle saveInstanceState){
         return null;

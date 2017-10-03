@@ -88,6 +88,21 @@ public class ComponentConfig {
                     type = Components.Types.TYPE_SLIDEING;
                     name = Components.Names.SLIDEING;
                     break;
+
+                case USER_AVATAR:
+                    type = Components.Types.TYPE_USER_AVATAR;
+                    name = Components.Names.USER_AVATAR;
+                    break;
+
+                case USER_NAME:
+                    type = Components.Types.TYPE_USER_NAME;
+                    name = Components.Names.USER_NAME;
+                    break;
+
+                case USER_INFORMATION:
+                    type = Components.Types.TYPE_USER_INFORMATION;
+                    name = Components.Names.USER_INFORMATION;
+                    break;
             }
 
             return type;
@@ -100,7 +115,11 @@ public class ComponentConfig {
         STATUS(2),      //状态组件,主要是展示血量和精力值
         INFORMATION(3),     //信息展示组件,主要是展示用户基本信息,以及步数和金币的数量
         SETTING(4),     //设置组件,主要是跳转到设置界面的那个按钮
-        SLIDEING(5);    //上滑组件，主要触动主界面上滑,出现屏幕下面的四个Fragment
+        SLIDEING(5),    //上滑组件，主要触动主界面上滑,出现屏幕下面的四个Fragment
+
+        USER_AVATAR(6),     //主界面下面第四个fragment中的用户头像,因为牵扯到换头像操作,涉及的逻辑比较多
+        USER_NAME(7),       //主界面下面第四个fragment中的用户名称,因为同样有换名称的逻辑,比较麻烦
+        USER_INFORMATION(8);    //主界面下的第四个fragment中的用户信息，这个只是起到一个展示作用
 
         TYPE (int type){
             value = type;

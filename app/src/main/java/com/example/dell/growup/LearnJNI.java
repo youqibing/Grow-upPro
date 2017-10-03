@@ -18,7 +18,7 @@ public class LearnJNI {
         return instance;
     }
 
-    void baseDataType(){
+    public void baseDataType(){
 
         short s =1;
         int i =5;
@@ -31,7 +31,7 @@ public class LearnJNI {
         nativeBaseDataType(s, i, l, f, d, c, b);
     }
 
-    void returnString(){
+    public void returnString(){
         int i =3;
         char[] c = {'J','N','I'};
         String s = "learn";
@@ -40,16 +40,16 @@ public class LearnJNI {
         Log.e("returnString",string);
     }
 
-    void voidString(){
+    public void voidString(){
         String string = nativeReturnString();
         Log.e("voidString",string);
     }
 
-    void callJavaStaticMethod(){
+    public void callJavaStaticMethod(){
         nativeCallJavaStaticMethod();
     }
 
-    void callJavaInstaceMethod(){
+    public void callJavaInstaceMethod(){
         nativeCallJavaInstaceMethod();
     }
 

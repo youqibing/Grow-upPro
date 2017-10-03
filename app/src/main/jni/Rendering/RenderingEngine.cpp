@@ -41,14 +41,23 @@ void RenderingEngine::Initialize(int width, int height) {
     ELOG("RenderingEngine.cpp --> SCREEN_WIDTH:%d",SCREEN_WIDTH);
     screenFrameBuffer = new FrameBuffer(SCREEN_WIDTH, SCREEN_HEIGHT, texture);
 
+    /*
+     * View矩阵就是一个单位矩阵
+     */
     cameraMatrix = new Matrix4();
 
+    /*
+     * ProjectionMatrix,正交投影矩阵,将顶点坐标从观察空间转换到剪裁空间,投影平面影像
+     */
     orthographicProjectionMatrix = new Matrix4();
     orthographicProjectionMatrix->InitOrthographic(0, SCREEN_WIDTH, 0, SCREEN_HEIGHT, 0, 10);
 
     screenTexture = TextureManager::GetInstance()->CreatTexture(SCREEN_WIDTH, SCREEN_HEIGHT, GL_LINEAR, GL_REPEAT);
     screenShader = ShaderManager::GetInstance()->CreatShader(vert_screen_shader, frag_screen_shader);
 
+    /*
+     *  模型矩阵,将局部坐标还原为成真实的世界坐标,这里主要是将平面坐标的宽高都加了一个"二分之屏幕"
+     */
     screenVerticesModelMatrix = new Matrix4();
     screenVerticesModelMatrix -> InitTranslation(SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
 }
@@ -84,8 +93,11 @@ void RenderingEngine::BindFrameBufferToScreen(FrameBuffer *frameBuffer) {
     }
     //ELOG("RenderingEngine.cpp --> frameBuffer->GetFrameBufferId():%d",frameBuffer->GetFrameBufferId());
     glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer->GetFrameBufferId());
-    //ELOG("RenderingEngine.cpp --> frameBuffer->textureWidth:%d",frameBuffer->textureWidth);
-    //ELOG("RenderingEngine.cpp --> frameBuffer->textureHeight:%d",frameBuffer->textureHeight);
+    /*
+     * 所有顶点经过透视划分后(4维坐标x,y,z分量除以齐次分量w)
+     * 将4维剪裁空间坐标转换为3维标准化设备坐标透视划分在每一个顶点着色器运行的最后阶段被自动执行
+     * 透视划分之后,坐标转换的结果会被影射到屏幕空间,由glViewport设置并且被转化为片段
+     */
     glViewport(0, 0, frameBuffer->textureWidth, frameBuffer->textureHeight);
 }
 
