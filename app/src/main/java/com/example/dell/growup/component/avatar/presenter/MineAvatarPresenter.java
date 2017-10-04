@@ -3,11 +3,14 @@ package com.example.dell.growup.component.avatar.presenter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 
 import com.example.dell.growup.Utils.AsyncTaskLoader;
 import com.example.dell.growup.Utils.IAsyncCallback;
@@ -22,6 +25,7 @@ public class MineAvatarPresenter extends AbsAvatarPresenter {
 
     private static final int FROM_LOCAL = 1;
     private static final int FROM_CUT = 2;
+    private static final int REQUEST_EXTERNAL_STORAGE = 3;
 
     private Uri uriPath;
 
@@ -33,6 +37,10 @@ public class MineAvatarPresenter extends AbsAvatarPresenter {
     private static final String RAISING_PETS_UPLOAD = BASE_PATH + "/" +"GrowUp"+"/" + "headPhoto.png";
     private static final String RAISING_PETS_URL_PATH = "file://" + BASE_PATH + "/" +"GrowUp"+"/" + "headPhoto.png";
 
+    private static String[] PERMISSIONS_STORAGE = {
+            "android.permission.READ_EXTERNAL_STORAGE",
+            "android.permission.WRITE_EXTERNAL_STORAGE" };
+
     public MineAvatarPresenter(Context context, Activity activity) {
         super(context);
         this.activity = activity;
@@ -43,15 +51,34 @@ public class MineAvatarPresenter extends AbsAvatarPresenter {
     private void externalStorageState(){
         File file = new File(RAISING_PETS_FILE);
         if (!file.exists()) {
-            file.mkdirs();      //这里应该加入权限检查,待会再加
+            file.mkdirs();
         }
     }
 
     @Override
     public void onAvatarClick() {
+        if(Build.VERSION.SDK_INT >= 23 ){
+            requestPermissions();
+        }
         Intent galleryIntent = new Intent(Intent.ACTION_PICK);
-        galleryIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*");
+        galleryIntent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
         startActivityForResult(galleryIntent, FROM_LOCAL);
+    }
+
+    /*
+     * 适配6.0以上动态权限问题
+     */
+    private void requestPermissions(){
+        try {
+            //检测是否有写的权限
+            int permission = ActivityCompat.checkSelfPermission(activity, "android.permission.WRITE_EXTERNAL_STORAGE");
+            if (permission != PackageManager.PERMISSION_GRANTED) {
+                // 没有写的权限，去申请写的权限，会弹出对话框
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
