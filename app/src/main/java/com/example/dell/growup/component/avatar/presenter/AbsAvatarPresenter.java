@@ -11,11 +11,11 @@ import com.example.dell.growupbase.base.fragment.IPresenter;
  * Created by dell on 2017/10/1.
  */
 
-public abstract class AbsAvatarIPresenter extends IPresenter<IAvatarView> implements IAvatarView.IAvatarViewCallBack {
+public abstract class AbsAvatarPresenter extends IPresenter<IAvatarView> implements IAvatarView.IAvatarViewCallBack {
 
     protected Context Ctx;
 
-    public AbsAvatarIPresenter(Context context) {
+    public AbsAvatarPresenter(Context context) {
         super(context);
         Ctx = context;
     }

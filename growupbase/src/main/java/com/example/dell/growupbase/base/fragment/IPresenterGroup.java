@@ -17,8 +17,10 @@ import java.util.List;
 
 public abstract class IPresenterGroup<V extends IViewGroup> extends IPresenter<V> {
 
+    private IPageSwitcher mPageSwitcher;
     protected final Handler mUIHandler;
     private PageState mCurrentPageState = PageState.NONE;
+    private Context mContext;
 
     private enum PageState{
         NONE, CREATED, STARTED, RESUMED, PAUSED, STOPPED, DESTOYED
@@ -26,6 +28,7 @@ public abstract class IPresenterGroup<V extends IViewGroup> extends IPresenter<V
 
     public IPresenterGroup(Context context, Bundle arguments) {
         super(context);
+        mContext = context;
         mUIHandler = new Handler(Looper.getMainLooper());
         mArguments = arguments;
     }
@@ -33,6 +36,52 @@ public abstract class IPresenterGroup<V extends IViewGroup> extends IPresenter<V
     /** 子Presenter 的集合**/
     private final List<IPresenter> mChildren = new LinkedList<>();
 
+
+    /**
+     * 设置页面跳转处理器,有外部提供
+     * 只有顶级Presenter才需要
+     *
+     * @param pageSwitcher
+     */
+    void setPageSwitcher(IPageSwitcher pageSwitcher) {
+        mPageSwitcher = pageSwitcher;
+    }
+
+    /**
+     * 获取页面跳转处理器,如果有父Presenter使用父Presenter的跳转器
+     * 没有父Presenter的情况下自己创建跳转器,子类调用这个方法实现页面的跳转
+     *
+     * @return
+     */
+    @Override
+    protected final IPageSwitcher getPageSwitcher() {
+        return mParent != null ? mParent.getPageSwitcher() : mPageSwitcher;
+    }
+
+
+    /**
+     * 启动一个Activity并等待结果
+     *
+     * @param intent
+     * @param requestCode
+     * @param options
+     */
+    final void startActivityForChild(Intent intent, int requestCode, Bundle options, IPresenter child) {
+        if (intent == null || child == null) {
+            return;
+        }
+        if (mPageSwitcher == null) {
+            return;
+        }
+        ///** 如果Parent为空,是顶级容器,直接请求,不需要其它的信息*/
+        //if (requestCode == -1) {
+        mPageSwitcher.startActivityForResult(intent, requestCode, options);
+            //return;
+        //}
+        ///** 为子Presenter生成一个新的requestCode*/
+        //requestCode = hostRequestCodeForChild(child, requestCode);
+        //mPageSwitcher.startActivityForResult(intent, requestCode, options);
+    }
 
 
     /**------------------------------------Presenter层级管理--------------------------------------**/

@@ -24,16 +24,6 @@ public class ComponentFactory {
         componentPool = new ComponentPool();
     }
 
-    /**
-     * 注册一个组件到组件池中
-     *
-     * @param type  组件类型
-     * @param name  组件名称
-     * @param clazz   组件类型对象
-     */
-    public void register(String type, String name, Class<? extends IComponent> clazz){
-        componentPool.register(type, name, clazz);
-    }
 
     /**
      * 注册一个标准的组件类型到组件池中
@@ -42,7 +32,7 @@ public class ComponentFactory {
      * @param name      组件名称
      * @param clazz     组件类型对象
      */
-    public void registerCommon(String type, String name, Class<? extends IComponent> clazz){
+    public void register(String type, String name, Class<? extends IComponent> clazz){
         mCommon.put(type, name);
         componentPool.register(type, name, clazz);
     }

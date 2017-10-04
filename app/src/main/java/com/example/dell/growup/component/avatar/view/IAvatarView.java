@@ -1,5 +1,7 @@
 package com.example.dell.growup.component.avatar.view;
 
+import android.graphics.Bitmap;
+
 import com.example.dell.growupbase.base.fragment.IView;
 
 /**
@@ -12,4 +14,6 @@ public interface IAvatarView extends IView{
     }
 
     void setAvatarViewCallBack(IAvatarViewCallBack callBack);
+
+    void refreshAvatar(Bitmap bitmap);
 }

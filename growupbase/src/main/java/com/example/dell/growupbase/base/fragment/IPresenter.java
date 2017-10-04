@@ -3,6 +3,7 @@ package com.example.dell.growupbase.base.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by dell on 2017/9/14.
@@ -37,6 +38,43 @@ public abstract class IPresenter<V extends IView> {
 
     /**----------------------------------------------------------------------------------**/
 
+
+    /**
+     * 获取宿主Fragment
+     *
+     * @return 宿主Fragment, 可能为空.不建议从这个Fragment中取出Activity使用
+     */
+    protected Fragment getHost() {
+        IPageSwitcher switcher = getPageSwitcher();
+        return switcher != null ? switcher.getHost() : null;
+    }
+
+    protected IPageSwitcher getPageSwitcher() {
+        return mParent != null ? mParent.getPageSwitcher() : null;
+    }
+
+    /**
+     * 启动一个Activity并等待结果
+     *
+     * @param intent
+     * @param requestCode
+     */
+    protected void startActivityForResult(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode, null);
+    }
+
+    /**
+     * 启动一个Activity并等待结果
+     *
+     * @param intent
+     * @param requestCode
+     * @param options
+     */
+    protected void startActivityForResult(Intent intent, int requestCode, Bundle options) {
+        if (mParent != null) {
+            mParent.startActivityForChild(intent, requestCode, options, this);
+        }
+    }
 
     /**
      * 处理onActivityResult

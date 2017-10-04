@@ -21,7 +21,7 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static com.example.dell.growupbase.base.component.PageIds.PAGE_MINE_FRAGMENT;
 
 
-public class MineFragment extends BaseCompFragment {
+public class MineFragment extends BaseCompFragment{
 
     private AvatarComponent mAvatarComponent;
 

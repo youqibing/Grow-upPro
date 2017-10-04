@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 
 abstract class BaseFragment extends Fragment implements IViewGroup {
 
+    private IPageSwitcher mPageSwitcher;
     private View mRootView;
     private IPresenterGroup mTopPresenter;
 
@@ -36,12 +37,35 @@ abstract class BaseFragment extends Fragment implements IViewGroup {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         mDestroyed = false;
         mTopPresenter = onCreateTopPresenter();
+        mTopPresenter.setPageSwitcher(getPageSwitcher());
         mTopPresenter.setIView(this);
 
         mRootView = onCreatViewImpl(inflater, container, savedInstanceState);
         mTopPresenter.dispatchPageCreate();
 
         return mRootView;
+    }
+
+    /**
+     * 提供页面跳转器,用于实现页面的切换
+     *
+     * @return
+     */
+    protected final IPageSwitcher getPageSwitcher() {
+        if (mPageSwitcher != null) {
+            return mPageSwitcher;
+        }
+        mPageSwitcher = createPageSwitcher();
+        return mPageSwitcher;
+    }
+
+    /**
+     * 创建一个页面切换器,用于处理页面切换功能
+     *
+     * @return
+     */
+    protected IPageSwitcher createPageSwitcher() {
+        return new BasePagerSwitcher(getContext(), this);
     }
 
     /**

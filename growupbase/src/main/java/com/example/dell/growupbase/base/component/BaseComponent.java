@@ -23,8 +23,17 @@ public abstract class BaseComponent<V extends IView, P extends IPresenter> imple
         mPresenter = onCreatePresenter(params);
 
         if(mPresenter != null && mView != null){
-            mPresenter.setIView(mView); //View绑定到Prensenter
+            /*
+             * View绑定到Prensenter,实际上这里的mPresenter就是具体组件Presenter的实例,
+             * mView就是具体组件View类的实例,这里的绑定就是让具体组件的mPresenter持有他对应的View(所实现接口)
+             * 的引用，以便通过接口进行逻辑上的交互
+             */
+            mPresenter.setIView(mView);
         }
+        /*
+         * 这里绑定就是一个回调时间,用于监听并回调View中的事件,毕竟View
+         * 和Presenter不能双向持有引用,就通过接口中的接口来通知Presenter中做一些对应的逻辑处理
+         */
         bind(params, mView, mPresenter);
     }
 

@@ -34,9 +34,7 @@ public abstract class BaseCompFragment extends BaseFragment {
         return ComponentFactory.get().newComponent(getContext(), type, pageID);
     }
 
-    /**
-     *
-     */
+
     protected <T extends IComponent> void initComponent(T comp, String type, ViewGroup parent, String pageID){
         initComponent(comp, type, parent, pageID, null);
     }
