@@ -2,19 +2,18 @@ package com.example.dell.growup.component.avatar;
 
 import android.view.ViewGroup;
 
-import com.example.dell.growup.component.avatar.presenter.MineAvatarPresenter;
-import com.example.dell.growup.component.avatar.presenter.AbsAvatarPresenter;
+import com.example.dell.growup.component.avatar.mvp.AvatarPresenter;
 
-import com.example.dell.growup.component.avatar.view.AvatarView;
-import com.example.dell.growup.component.avatar.view.IAvatarView;
+import com.example.dell.growup.component.avatar.mvp.AvatarView;
+import com.example.dell.growup.component.avatar.mvp.IAvatarView;
 import com.example.dell.growupbase.base.component.BaseComponent;
 import com.example.dell.growupbase.base.component.ComponentParams;
 
 
-public class AvatarComponent extends BaseComponent<IAvatarView, AbsAvatarPresenter> {
+public class AvatarComponent extends BaseComponent<IAvatarView, AvatarPresenter> {
 
     @Override
-    protected void bind(ComponentParams params, IAvatarView view, AbsAvatarPresenter presenter) {
+    protected void bind(ComponentParams params, IAvatarView view, AvatarPresenter presenter) {
         view.setAvatarViewCallBack(presenter);
     }
 
@@ -24,7 +23,7 @@ public class AvatarComponent extends BaseComponent<IAvatarView, AbsAvatarPresent
     }
 
     @Override
-    protected AbsAvatarPresenter onCreatePresenter(ComponentParams params) {
-        return new MineAvatarPresenter(params.ctx,params.getActivity());
+    protected AvatarPresenter onCreatePresenter(ComponentParams params) {
+        return new AvatarPresenter(params.ctx,params.getActivity());
     }
 }

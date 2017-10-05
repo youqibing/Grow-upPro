@@ -1,4 +1,4 @@
-package com.example.dell.growup.Utils;
+package com.example.dell.growup.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -6,8 +6,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-
-import com.example.dell.growup.Utils.MaskedImage;
 
 /**
  * Created by dell on 2017/10/1.

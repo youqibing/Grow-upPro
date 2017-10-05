@@ -1,4 +1,4 @@
-package com.example.dell.growup.component.avatar.view;
+package com.example.dell.growup.component.avatar.mvp;
 
 import android.graphics.Bitmap;
 
@@ -15,5 +15,5 @@ public interface IAvatarView extends IView{
 
     void setAvatarViewCallBack(IAvatarViewCallBack callBack);
 
-    void refreshAvatar(Bitmap bitmap);
+    void refreshAvatar();
 }

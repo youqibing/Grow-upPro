@@ -55,7 +55,7 @@ static int registerNativeMethods(JNIEnv *env, const char *className, JNINativeMe
 
 //注册Native
 static int registerNatives(JNIEnv *env) {
-    const char *className = "com/example/dell/growup/LearnJNI"; //指定注册的类
+    const char *className = "com/example/dell/growup/utils/learnJNI/LearnJNI"; //指定注册的类
     return registerNativeMethods(env, className, methods, sizeof(methods) / sizeof(methods[0]));
 }
 
@@ -125,7 +125,7 @@ void callStaticMethod(JNIEnv *jniEnv, jclass cls){
     jstring  str = NULL;
 
     //从classpath路径下搜索ClassMethod这个类，并返回该类的Class对象
-    clazz =(*jniEnv).FindClass("com/example/dell/growup/ClassMethod");
+    clazz =(*jniEnv).FindClass("com/example/dell/growup/utils/learnJNI/ClassMethod");
     if(clazz ==NULL){
         return;
     }

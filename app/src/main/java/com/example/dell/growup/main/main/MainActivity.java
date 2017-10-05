@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.example.dell.growup.LearnJNI;
+import com.example.dell.growup.utils.learnJNI.LearnJNI;
 import com.example.dell.growup.NativeRenderer;
 import com.example.dell.growup.R;
 

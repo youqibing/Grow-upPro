@@ -1,4 +1,4 @@
-package com.example.dell.growup.Utils;
+package com.example.dell.growup.utils;
 
 /**
  * Created by dell on 2017/10/3.

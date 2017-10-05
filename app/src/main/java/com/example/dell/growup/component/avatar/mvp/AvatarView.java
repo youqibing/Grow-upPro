@@ -1,4 +1,4 @@
-package com.example.dell.growup.component.avatar.view;
+package com.example.dell.growup.component.avatar.mvp;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.dell.growup.data.UserPreference;
 import com.example.dell.growupbase.R;
 
 
@@ -60,7 +63,10 @@ public class AvatarView implements IAvatarView, View.OnClickListener{
     }
 
     @Override
-    public void refreshAvatar(Bitmap bitmap) {
-        avatar.setImageBitmap(bitmap);
+    public void refreshAvatar() {
+        Glide.with(Ctx)
+                .load(UserPreference.getHeadUrl())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop().into((ImageView)mView.findViewById(R.id.avatar));
     }
 }

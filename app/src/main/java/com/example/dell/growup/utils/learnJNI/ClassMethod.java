@@ -1,4 +1,4 @@
-package com.example.dell.growup;
+package com.example.dell.growup.utils.learnJNI;
 
 import android.util.Log;
 

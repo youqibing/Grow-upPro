@@ -1,4 +1,4 @@
-package com.example.dell.growup.component.avatar.presenter;
+package com.example.dell.growup.component.avatar.mvp;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,8 +12,17 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 
-import com.example.dell.growup.Utils.AsyncTaskLoader;
-import com.example.dell.growup.Utils.IAsyncCallback;
+import com.birbit.android.jobqueue.JobManager;
+import com.example.dell.growup.utils.AsyncTaskLoader;
+import com.example.dell.growup.utils.IAsyncCallback;
+import com.example.dell.growup.utils.ToastUtil;
+import com.example.dell.growup.component.avatar.job_and_event.AvatarEvent;
+import com.example.dell.growup.component.avatar.job_and_event.AvatarJob;
+import com.example.dell.growupbase.base.GrowUpApplication;
+import com.example.dell.growupbase.base.fragment.IPresenter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +30,7 @@ import java.io.FileNotFoundException;
 import static android.app.Activity.RESULT_OK;
 
 
-public class MineAvatarPresenter extends AbsAvatarPresenter {
+public class AvatarPresenter extends IPresenter<IAvatarView> implements IAvatarView.IAvatarViewCallBack {
 
     private static final int FROM_LOCAL = 1;
     private static final int FROM_CUT = 2;
@@ -30,6 +39,8 @@ public class MineAvatarPresenter extends AbsAvatarPresenter {
     private Uri uriPath;
 
     private Activity activity;
+
+    private JobManager jobManager;
 
     private static final String BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
 
@@ -41,9 +52,12 @@ public class MineAvatarPresenter extends AbsAvatarPresenter {
             "android.permission.READ_EXTERNAL_STORAGE",
             "android.permission.WRITE_EXTERNAL_STORAGE" };
 
-    public MineAvatarPresenter(Context context, Activity activity) {
+    public AvatarPresenter(Context context, Activity activity) {
         super(context);
         this.activity = activity;
+
+        EventBus.getDefault().register(this);
+        jobManager = GrowUpApplication.getInstance().getJobManager();
 
         externalStorageState();//为我们储存用户头像的路径创造一个文件夹
     }
@@ -74,7 +88,7 @@ public class MineAvatarPresenter extends AbsAvatarPresenter {
             int permission = ActivityCompat.checkSelfPermission(activity, "android.permission.WRITE_EXTERNAL_STORAGE");
             if (permission != PackageManager.PERMISSION_GRANTED) {
                 // 没有写的权限，去申请写的权限，会弹出对话框
-                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE,REQUEST_EXTERNAL_STORAGE);
+                ActivityCompat.requestPermissions(activity, PERMISSIONS_STORAGE, REQUEST_EXTERNAL_STORAGE);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -131,8 +145,7 @@ public class MineAvatarPresenter extends AbsAvatarPresenter {
                              *  也就是说,这里的mView是一个实现了IAvatarView接口的AvatarView类对象,因此可以直接操作
                              *  IAvatarView接口中的方法
                              */
-                            mView.refreshAvatar(bitmap);
-                            //jobManager.addJobInBackground(new HeaderPhotoJob(Uri.parse(RAISING_PETS_UPLOAD).toString()));
+                            jobManager.addJobInBackground(new AvatarJob(Uri.parse(RAISING_PETS_UPLOAD).toString()));
                         }
                     };
                     new AsyncTaskLoader().execute(callback);
@@ -165,5 +178,16 @@ public class MineAvatarPresenter extends AbsAvatarPresenter {
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
 
         startActivityForResult(intent, FROM_CUT);
+    }
+
+    @Subscribe
+    public void onEventThread(AvatarEvent event){
+
+        if(event.isSucess()){
+            ToastUtil.showShortToast("头像上传成功!");
+            mView.refreshAvatar();
+        }else {
+            ToastUtil.showShortToast("头像上传失败,请检查网络连接");
+        }
     }
 }

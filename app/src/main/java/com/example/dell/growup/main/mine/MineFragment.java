@@ -8,8 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.birbit.android.jobqueue.JobManager;
 import com.example.dell.growup.R;
 import com.example.dell.growup.component.avatar.AvatarComponent;
+import com.example.dell.growupbase.base.GrowUpApplication;
 import com.example.dell.growupbase.base.component.Components;
 import com.example.dell.growupbase.base.fragment.BaseCompFragment;
 import com.example.dell.growupbase.base.fragment.IPresenter;

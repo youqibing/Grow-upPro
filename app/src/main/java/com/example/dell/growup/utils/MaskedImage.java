@@ -1,4 +1,4 @@
-package com.example.dell.growup.Utils;
+package com.example.dell.growup.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
