@@ -15,4 +15,17 @@
         <item name="tabSelectedTextColor">#362e2b</item>
     </style>
 
+    <style name="myTabLayout">
+        <item name="tabIndicatorColor">@color/bg_selected_true</item>
+        <item name="tabIndicatorHeight">1dp</item>
+        <item name="tabBackground">@color/bg_selected_false</item>
+        <item name="tabTextAppearance">@style/CustomTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/bg_selected_true</item>
+    </style>
+
+    <style name="CustomTabTextAppearance">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textColor">#fcfcfc</item>
+    </style>
+
 </resources>

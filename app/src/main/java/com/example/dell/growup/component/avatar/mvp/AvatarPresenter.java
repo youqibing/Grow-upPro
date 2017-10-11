@@ -23,6 +23,7 @@ import com.example.dell.growupbase.base.fragment.IPresenter;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -180,7 +181,7 @@ public class AvatarPresenter extends IPresenter<IAvatarView> implements IAvatarV
         startActivityForResult(intent, FROM_CUT);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.POSTING)
     public void onEventThread(AvatarEvent event){
 
         if(event.isSucess()){

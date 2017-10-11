@@ -3,6 +3,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        style="@style/myTabLayout"/>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_below="@+id/tab"
+        android:background="#362e2b"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 

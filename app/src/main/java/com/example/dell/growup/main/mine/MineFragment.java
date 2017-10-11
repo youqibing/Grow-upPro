@@ -3,42 +3,28 @@ package com.example.dell.growup.main.mine;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
-import com.birbit.android.jobqueue.JobManager;
+
 import com.example.dell.growup.R;
-import com.example.dell.growup.component.avatar.AvatarComponent;
-import com.example.dell.growupbase.base.GrowUpApplication;
-import com.example.dell.growupbase.base.component.Components;
-import com.example.dell.growupbase.base.fragment.BaseCompFragment;
-import com.example.dell.growupbase.base.fragment.IPresenter;
-import com.example.dell.growupbase.base.fragment.IPresenterGroup;
-import com.example.dell.growupbase.base.fragment.IView;
+import com.example.dell.growup.main.mine.achievement.AchieveFragment;
+import com.example.dell.growup.main.mine.information.InforFragment;
 
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
-
-import static com.example.dell.growupbase.base.component.PageIds.PAGE_MINE_FRAGMENT;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class MineFragment extends BaseCompFragment{
+public class MineFragment extends Fragment{
 
-    private AvatarComponent mAvatarComponent;
+    private ViewPager viewPager;
+    private TabLayout mtabLayout;
 
-    private IPresenterGroup mTopPresenter;
-    private RelativeLayout mRootView;
-
-    @Override
-    protected IPresenterGroup onCreateTopPresenter() {
-        mTopPresenter = new MineIPresenter(getContext(),getArguments());
-        return mTopPresenter;
-    }
-
-    private IPresenterGroup getmTopPresenter(){
-        return mTopPresenter;
-    }
+    private List<Fragment> fragmentList;
 
     @Override
     public void onAttach(Context context) {
@@ -50,47 +36,31 @@ public class MineFragment extends BaseCompFragment{
         super.onCreate(savedInstanceState);
     }
 
+    @Nullable
     @Override
-    protected View onCreatViewImpl(LayoutInflater inflater, ViewGroup containter, Bundle saveInstanceState) {
-        mRootView = (RelativeLayout) inflater.inflate(R.layout.fragment_mine, containter, false);
-        initView(mRootView);
-        initData();
-        return mRootView;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_mine, container,false);
+
+        viewPager = (ViewPager)view.findViewById(R.id.viewpager);
+        mtabLayout = (TabLayout)view.findViewById(R.id.tab);
+
+        initView();
+
+        return view;
     }
 
-    private void initView(ViewGroup viewGroup){
-        mAvatarComponent = newComponent(Components.Types.TYPE_USER_AVATAR, PAGE_MINE_FRAGMENT);
-        if(mAvatarComponent != null){
-            initComponent(mAvatarComponent, Components.Types.TYPE_USER_AVATAR, viewGroup, PAGE_MINE_FRAGMENT);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT);
-            addComponentView(viewGroup, mAvatarComponent.getView(), 0, layoutParams);
-            addComponentPresenter(getmTopPresenter(), mAvatarComponent.getPresenter());
-        }
+    private void initView(){
+        fragmentList = new ArrayList<>();
+
+
+        fragmentList.add(new AchieveFragment());
+        fragmentList.add(new InforFragment());
+
+        MineTabAdapter adapter = new MineTabAdapter(getChildFragmentManager(), fragmentList);
+        viewPager.setAdapter(adapter);
+        viewPager.setOffscreenPageLimit(1);
+        mtabLayout.setupWithViewPager(viewPager);
+
     }
 
-    private void initData(){
-
-    }
-
-    private void addComponentView(ViewGroup parent, IView iView, int index, RelativeLayout.LayoutParams layoutParams){
-        View view = iView != null ? iView.getView() : null;
-        if(view != null){
-            parent.addView(view, index, layoutParams);
-        }
-    }
-
-    private void addComponentPresenter(IPresenterGroup presenterGroup, IPresenter IPresenter){
-        if(IPresenter != null){
-            presenterGroup.addChild(IPresenter);
-        }
-    }
-
-    @Override
-    protected void onDestroyViewImpl() {
-        super.onDestroyViewImpl();
-
-        mTopPresenter = null;
-        mAvatarComponent = null;
-        mRootView = null;
-    }
 }

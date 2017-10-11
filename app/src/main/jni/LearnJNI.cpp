@@ -156,7 +156,7 @@ void callInstanceMethod(JNIEnv *jniEnv, jclass cls){
 
 
     //从classpath路径下搜索ClassMethod这个类，并返回该类的Class对象
-    clazz = (*jniEnv).FindClass("com/example/dell/growup/ClassMethod");
+    clazz = (*jniEnv).FindClass("com/example/dell/growup/utils/learnJNI/ClassMethod");
     if(clazz == NULL){
         return;
     }
