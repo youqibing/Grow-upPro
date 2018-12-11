@@ -24,7 +24,7 @@ void Shader::GetAttribAndUniformLocation() {
 
 
 
-/**向顶点着色器和判断着色器中传递变量数据的方法,因为GLSL是一种类C语言，没有函数重载，因此需要写一大堆，这些方法固定模式，记住就行**/
+/**向顶点着色器和片段着色器中传递变量数据的方法,因为GLSL是一种类C语言，没有函数重载，因此需要写一大堆，这些方法固定模式，记住就行**/
 
 void Shader::SetUniform1f(const char* uniform_name, float u){
     glUniform1f(glGetUniformLocation(programId, uniform_name), u);

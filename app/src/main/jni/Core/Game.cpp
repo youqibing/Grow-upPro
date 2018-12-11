@@ -41,7 +41,7 @@ void Game::Update() {
     SetData(GameTime::GetInstance()->GetDeltaTime());   //当前时间 - 上一次Upadte时保存的时间
 
     if(scene != 0 && !gamePause){
-        //ELOG("Game.cpp --> Update:%f", delta);
+        //ELOG("Game.cpp --> UpdateShader:%f", delta);
         scene->Update(delta);
     }
 }

@@ -3,6 +3,7 @@ package com.example.dell.growup.main.main;
 import android.graphics.Color;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
+import android.support.annotation.UiThread;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;

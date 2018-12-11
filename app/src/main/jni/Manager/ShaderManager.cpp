@@ -38,7 +38,7 @@ Shader* ShaderManager::CreatShader(string &vertSrc, string &fragSrc) {
     //ELOG("ShaderManager.cpp --> vertShader:%d", vertShader);
     //ELOG("ShaderManager.cpp --> fragShader:%d", fragShader);
     //ELOG("ShaderManager.cpp --> shader ->GetProgramId():%d", shader ->GetProgramId());
-    CreatGLProgrom(shader ->GetProgramId(), vertShader, fragShader);    //链接顶点着色器和片段着色器
+    CreatGLProgrom(shader ->GetProgramId(), vertShader, fragShader);    //链接顶点着色器和片段着色器到创建的工程中
 
     shader->GetAttribAndUniformLocation();  //调用该方法在Shader类中的四个变量中保存着色器中变量位置信息
 

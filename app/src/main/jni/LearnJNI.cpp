@@ -109,7 +109,7 @@ jstring returnJavaString(JNIEnv *jniEnv, jobject jobj, jint i, jstring j_str, jc
     sprintf(buff, "%s", c_str);   //sprintf(s, "%d", 123);  //把整数123打印成一个字符串保存在s中
     for(int j=0; j<i; j++){
         buff[str_len+j] = (char) j_charArray[j];
-        //ELOG("LearnJNI.cpp --> returnJavaString:%c",buff[str_len+j]);
+        ELOG("LearnJNI.cpp --> returnJavaString:%c",buff[str_len+j]);
     }
 
     free(j_charArray);  // 释放存储数组元素的缓冲区

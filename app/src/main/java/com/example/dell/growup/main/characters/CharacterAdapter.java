@@ -95,7 +95,7 @@ public class CharacterAdapter extends BaseAdapter {
         ImageView background_img;
         TextView title_tx;
 
-        HeaderViewHoder(View itemView) {
+        public HeaderViewHoder(View itemView) {
             super(itemView);
 
             background_img = (ImageView)itemView.findViewById(R.id.image_view);

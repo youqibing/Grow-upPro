@@ -52,7 +52,7 @@ bool Texture::InitializeTexture(unsigned char *pixelData, int fiter, int mode) {
                  GL_RGBA,  // 指定纹理中的颜色组件格式，这个取值和后面的format取值必须相同
                  width,  // 纹理的宽（最好2的次方）
                  height,  // 纹理的高（最好2的次方）
-                 0,  // 指定边框的宽度。必须为0
+                 0,  // 指定边框的宽度。必须为0（历史遗留问题）
                  GL_RGBA,  // 纹理单元格式（GL_BGRA=0x80E1）
                  GL_UNSIGNED_BYTE,  // 像素的数据类型
                  pixelData);  //数据指针，这里显然是像素

@@ -41,7 +41,7 @@ public:
     void SetDiffUseTextureOffset(const Vector& offset);
     void SetDiffUseTextureOffset(float x,float y);
 
-    void Update(Matrix4 *cameraMatrix, Matrix4 *modelMatrix);
+    void UpdateShader(Matrix4 *cameraMatrix, Matrix4 *modelMatrix);
 
     Shader* GetShader() const;
     Texture* GetDiffUseTexture() const;

@@ -53,7 +53,7 @@ void ShaderUpdate::SetTint(float r, float g, float b, float a){
 }
 
 
-void ShaderUpdate::Update(Matrix4 *cameraMatrix, Matrix4 *modelMaterial){
+void ShaderUpdate::UpdateShader(Matrix4 *cameraMatrix, Matrix4 *modelMaterial){
     shader->Begin();
 
     /*
@@ -69,7 +69,7 @@ void ShaderUpdate::Update(Matrix4 *cameraMatrix, Matrix4 *modelMaterial){
      */
     shader->SetUniform4f("u_tintColor", tint.r, tint.g, tint.b, tint.a);
 
-    //ELOG("ShaderUpdate.cpp --> diffUseTiling.x:%f", diffUseTiling.x);
+    ELOG("ShaderUpdate.cpp --> diffUseTiling.x:%f", diffUseTiling.x);
     //ELOG("ShaderUpdate.cpp --> diffUseTiling.y:%f", diffUseTiling.y);
     //ELOG("ShaderUpdate.cpp --> diffUseOffset.x:%f", diffUseOffset.x);
     //ELOG("ShaderUpdate.cpp --> diffUseOffset.y:%f", diffUseOffset.y);

@@ -45,7 +45,7 @@ void ForestScence::Initialize() {
 }
 
 void ForestScence::Update(float d){
-    //ELOG("ForestScence.cpp --> Update:%f", d);
+    //ELOG("ForestScence.cpp --> UpdateShader:%f", d);
 
     if(pauseGame){
         pauseGame = false;

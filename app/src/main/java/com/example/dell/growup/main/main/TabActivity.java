@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -33,7 +34,6 @@ public class TabActivity extends FragmentActivity implements TabHost.OnTabChange
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_tab);
 
         tabHost = (FragmentTabHost)findViewById(R.id.tabhost);
@@ -88,6 +88,18 @@ public class TabActivity extends FragmentActivity implements TabHost.OnTabChange
 
 
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.e("onPause","onPause");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.e("onStop","onStop");
     }
 }
 

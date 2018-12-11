@@ -54,9 +54,9 @@ void Matrix4::InitOrthographic(float left, float right, float bottom, float top,
     float depth = farPlane - nearPlane;
 
     /**
-     *  1/(w/2)    0         0         -(r+l)/w        标准的 "正交投影矩阵",这个矩阵的作用就是，将传入的点的坐标(x,y,z)除以
-     *  0        1/(h/2)     0         -(t+b)/h    (w/2, h/2, d/2)转化到(1,-1)(1,-1)(1,0),即归一化,超过1的部分都会被接下
-     *  0          0       -1/(d/2)    -(f+n)/d    来的剪裁视图裁掉,不予以呈现.具体可参考红宝书
+     *  2/w        0         0         -(r+l)/w        标准的 "正交投影矩阵",这个矩阵是有严格的数学推导的
+     *  0         2/h        0         -(t+b)/h
+     *  0          0       -2/d        -(f+n)/d
      *  0          0         0            1
      */
     set(0, 0, 2.0/width);       set(0, 1, 0);                set(0, 2, 0);                set(0, 3, -(right + left) / width);
@@ -90,9 +90,9 @@ void Matrix4::InitTranslation(const Vector &v) {
     SetTranslation(v);
 }
 
-/**                                             x               x+W/2
+/**                                              x               x+W/2
  *   "平移（X,Y)轴的"矩阵，所有乘以该矩阵的向量(设为 [ y ])都会得到 [   y+H/2  ]
- *   1 0 0 W/2                                 z                z
+ *   1 0 0 W/2                                  z                z
  *   0 1 0 H/2
  *   0 0 1 0
  *   0 0 0 1
